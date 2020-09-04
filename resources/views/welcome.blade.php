@@ -9,6 +9,14 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
+        <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript">
+        
+        // const _ = require("underscore");
+console.log(_.range(5));
+        
+    </script>
+
         <!-- Styles -->
         <style>
             html, body {
