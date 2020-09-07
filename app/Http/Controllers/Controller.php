@@ -49,6 +49,7 @@ class Controller extends BaseController
             $doacao             = new DoacaoModel();
             $doacao->id_usuario = $this->getUser()->id;
             $doacao->tipo       = 0;
+            $doacao->canal      = 0;
             $doacao->token      = session('token');
             $doacao->finalizado = 0;
 
