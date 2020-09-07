@@ -77,20 +77,15 @@ App.post = function(path, data, callback)
 {
 	var callbacks = $.Callbacks("once").add(callback);
 
-	console.log(data);
-
 	var formData = new FormData();
 	formData.append('_token', $('#token_csfr').find('input[type=hidden]')[0].value);
 	$(Object.entries(data)).each(function(i, item) {
 		if ((typeof item[1] == 'array' || typeof item[1] == 'object') && item[0] != 'imagem')
 		{
-			console.log('Não DEVE CAIR AQUI');
 			item[1] = JSON.stringify(item[1]);
 		}
 		formData.append(item[0], item[1]);
 	})
-
-	console.log(formData);
 
 	App.loading();
 	$.ajax({
