@@ -101,7 +101,7 @@ App.post = function(path, data, callback)
 			callbacks.fire(json);
 			setTimeout(function(){
 				App.loading(0);
-			}, 3000)
+			}, 1000)
 		},
 	});
 }
