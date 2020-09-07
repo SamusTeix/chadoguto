@@ -48,9 +48,6 @@
 
 		<div style="height: 175px"></div>
 
-		{{md5('admin')}}<br>
-		{{md5('sc261291')}}
-
         @yield('content')
         
 		<!-- Modal Delete -->
