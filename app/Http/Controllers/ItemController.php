@@ -11,6 +11,7 @@ use App\ItemModel;
 use App\LinkModel;
 use App\TipoModel;
 use App\ImagemModel;
+use App\TamanhoModel;
 
 use Illuminate\View\View;
 
@@ -18,20 +19,15 @@ class ItemController extends Controller
 {
 	public function list($tipo = null)
 	{
-		if (empty($tipo))
-		{
-			$itens = ItemModel::orderBy('nome')->get();
-		}
-		else
-		{
-			$itens = ItemModel::where('tipo_id', $tipo)->orderBy('nome')->get();
-		}
+		$zerados = TamanhoModel::itensZerados();
 
-		$item_id_list = [];
-		foreach($itens as $item)
-		{
-			$item_id_list[] = $item->id;
-		}
+		$where  = "1 = 1";
+		$where .= empty($tipo) ? '' : ' AND tipo_id = ' . $tipo;
+		$where .= count($zerados) ? ' AND id NOT IN (' . implode(',', $zerados) . ')' : '';
+
+		$itens = ItemModel::whereRaw($where)->orderBy('nome')->get();
+
+		$item_id_list = $this->getIdList($itens);
 
 		$imagens = ImagemModel::where('tabela', 'item')->whereIn('tabela_id', $item_id_list)->get();
 
@@ -42,18 +38,10 @@ class ItemController extends Controller
 			});
 		}
 
-
-
 		$data                     = [];
 		$data['itens']            = $itens;
 		$data['tipos']            = TipoModel::orderBy('nome')->get();
 		$data['tipo_selecionado'] = $tipo;
 		return view('item-list')->with($data);
-	}
-
-	public function index()
-	{
-		$item = new ItemModel();
-		$item->find(6);
 	}
 }

@@ -7,12 +7,30 @@
 	{{-- Estilos --}}
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <link href="http://localhost/css/app.css" rel="stylesheet">
+
+    <style>
+    	.show {
+    		display: block;
+    	}
+
+    	.hide {
+    		display: none;
+    	}
+
+    	.thumb {
+    		width: 10vw;
+    	}
+
+    	.mini-thumb {
+    		width: 5vw;
+    	}
+    </style>
 </head>
 <body>
 	<div id="app" class="container">
 		<nav class="navbar fixed-top navbar-light bg-light" style="background-image: url('/storage/fundo.png'); background-repeat: repeat-x;">
 			<div class="navbar-brand">
-				<a href="/list">
+				<a href="{{isset(session('permission')['user']) && session('permission')['user'] == true ? '/list' : '/'}}">
 					<img src="/storage/coroa.png" style="position: relative; left: 40px; top: -20px;">
 					<img src="/storage/titulo.png" style="border: 10px solid rgb(45, 69, 115); border-radius: 19px; background-color: rgb(254, 254, 254); position: relative; left: -10px; top: 16px; width: 40%;">
 					<img src="/storage/urso.png" style="height: 107px; position: relative; left: -31px; top: 8px;">
@@ -29,20 +47,6 @@
 		</nav>
 
 		<div style="height: 175px"></div>
-
-		@if(session('msg'))
-	    	<p>{{session('msg')}}</p>
-	    @endif
-	    @if(session('error'))
-	    	<div class="alert alert-error" role="alert">
-				{{ session('error') }}
-			</div>
-	    @endif
-	    @if(session('success'))
-	    	<div class="alert alert-success" role="alert">
-				{{ session('success') }}
-			</div>
-	    @endif
 
         @yield('content')
         
@@ -182,6 +186,71 @@
 			</div>
 		@endif
 
+		{{-- modal participa --}}
+		@if(isset($item->id))
+			<div class="modal fade" id="app-modal-participa" tabindex="-1" role="dialog" aria-labelledby="app-modal-participa" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header" id="app-modal-participa-header">
+			        <h5 class="modal-title" id="app-modal-participa-title">Adicionando item {{$item->nome}}</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body" id="app-modal-delete-body">
+			        <div id="app-modal-participa-text">
+			        	<h5>Selecione o(s) tamanho(s):</h5>
+				  		@if(isset($tamanho->pequeno) && $tamanho->pequeno > 0)
+				  			<div class="form-group">
+								<label>Pequeno:</label>
+								<select class="form-control" id="pequeno" nome="pequeno">
+									@for($i = 0; $i <= $tamanho->pequeno; $i++)
+										<option value="{{$i}}">{{$i}}</option>
+									@endfor
+								</select>
+							</div>
+				  		@endif
+				  		@if(isset($tamanho->medio) && $tamanho->medio > 0)
+				  			<div class="form-group">
+								<label>Médio:</label>
+								<select class="form-control" id="medio" nome="medio">
+									@for($i = 0; $i <= $tamanho->medio; $i++)
+										<option value="{{$i}}">{{$i}}</option>
+									@endfor
+								</select>
+							</div>
+				  		@endif
+				  		@if(isset($tamanho->grande) && $tamanho->grande > 0)
+				  			<div class="form-group">
+								<label>Grande:</label>
+								<select class="form-control" id="grande" nome="grande">
+									@for($i = 0; $i <= $tamanho->grande; $i++)
+										<option value="{{$i}}">{{$i}}</option>
+									@endfor
+								</select>
+							</div>
+				  		@endif
+				  		@if(isset($tamanho->unico) && $tamanho->unico > 0)
+				  			<div class="form-group">
+								<label>Tamanho único:</label>
+								<select class="form-control" id="unico" nome="unico">
+									@for($i = 0; $i <= $tamanho->unico; $i++)
+										<option value="{{$i}}">{{$i}}</option>
+									@endfor
+								</select>
+							</div>
+				  		@endif
+			        </div>
+			        <span id="app-modal-participa-erro" class="alert alert-danger btn-block" style="display: none;">Selecione pelo menos um tamanho</span>
+			      </div>
+			      <div class="modal-footer" id="app-modal-participa-footer">
+			      	<button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+			        <button type="button" class="btn btn-success" onClick="adicionarParticipa()">Confirmar</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+		@endif
 
 		{{-- modal loading --}}
 		<div class="modal fade" id="app-modal-loading" tabindex="-1" role="dialog" aria-labelledby="app-modal-loading" aria-hidden="true" data-backdrop="static" data-keyboard="false">

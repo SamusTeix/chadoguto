@@ -10,20 +10,16 @@ use App\LinkModel;
 use App\ImagemModel;
 use App\DoacaoModel;
 use App\TamanhoModel;
+use App\AdminModel;
+use App\DoacaoTipoModel;
+use App\DoacaoItemModel;
+use App\UsuarioModel;
 
 class AdminController extends Controller
 {
-	private $session;
-
-	public function __construct()
-	{
-		session_start();
-		$this->session = $_SESSION;
-	}
-
     public function index()
     {
-    	if ($this->isLogged())
+    	if ($this->hasAdminPermission())
     	{
     		$itens    = ItemModel::get();
     		$tipos    = TipoModel::get();
@@ -55,11 +51,39 @@ class AdminController extends Controller
     			});
     		}
 
-    		$data = [];
-    		$data['itens']         = $itens;
-    		$data['tipos']         = $tipos;
-    		$data['user']          = $this->session;
-    		$data['doacoes']       = DoacaoModel::get();
+            $doacoes  = DoacaoModel::get();
+            $itens_doacao = DoacaoItemModel::get();
+            $usuarios = UsuarioModel::get();
+
+            foreach ($doacoes as &$doacao) 
+            {
+                $doacao->usuario = $usuarios->filter(function($usuario) use ($doacao) {
+                    if ($usuario->id == $doacao->id_usuario){
+                        return $usuario;
+                    }                    
+                })->first();
+
+                $doacao->itens = $itens_doacao->filter(function($item_doacao) use ($doacao, $itens) {
+                    if ($item_doacao->id_doacao == $doacao->id) {
+                        $item_doacao->item = $itens->filter(function($item) use ($item_doacao) {
+                            if ($item->id == $item_doacao->id_item) {
+                                return $item;
+                            }
+                        })->first();
+                        return $item_doacao;
+                    }
+                });
+            }
+
+    		$data            = [];
+    		$data['itens']   = $itens;
+    		$data['tipos']   = $tipos;
+    		$data['admin']   = $this->getAdmin();
+            $data['doacoes'] = $doacoes;
+            $data['doacao_tipo'] = DoacaoTipoModel::get();
+
+            // dd($data);
+
     		return view('dashboard')->with('data', $data);
     	}
     	else
@@ -68,58 +92,24 @@ class AdminController extends Controller
     	}
     }
 
-    public static function logged()
-    {
-    	$self = new AdminController();
-    	return $self->isLogged();
-    }
-
-	private function isLogged()
-	{
-		return isset($this->session['admin']) 
-			&& $this->session['admin'] == true
-			&& isset($this->session['logged']) 
-			&& $this->session['logged'] == true
-			? true : false;
-	}
-
-	private function setSession()
-	{
-		foreach ($this->session as $key => $value) {
-            $_SESSION[$key] = $value;
-        }
-	}
-
 	public function login(Request $request)
 	{
-		$admin = DB::table('admin')
-					->where('login', md5($request->login))
-					->where('senha', md5($request->senha))
-					->first();
+		$admin = AdminModel::where('login', md5($request->login))->where('senha', md5($request->senha))->first();
 
-		if ($admin)
-		{
-			$this->session['login']  = $request->login;
-			$this->session['admin']  = true;
-			$this->session['logged'] = true;
-			$this->setSession();
-
-			return redirect('admin');
-		}
-		else
-		{
-			return redirect('admin')
-					->with('msg', 'Login ou senha incorretos');
-		}
+    	if ($admin)
+    	{
+    		$this->setAdminSession($admin);
+    		return redirect('admin');
+    	}
+    	else
+    	{
+    		return redirect('admin')->with('msg', 'Login ou senha incorretos');
+    	}
 	}
 
 	public function logout()
 	{
-		$this->session['login']  = false;
-		$this->session['admin']  = false;
-		$this->session['logged'] = false;
-		$this->setSession();
-
+		$this->adminLogout();
 		return redirect('admin');
 	}
 

@@ -13,4 +13,11 @@ class TamanhoModel extends Model
     {
     	parent::__construct();
     }
+
+    public static function itensZerados()
+    {
+    	$tamanhoModel = new TamanhoModel();
+    	$itens = $tamanhoModel->where('pequeno', 0)->where('medio', 0)->where('grande', 0)->where('unico', 0)->get();
+    	return $tamanhoModel->getIdList($itens, 'item_id');
+    }
 }

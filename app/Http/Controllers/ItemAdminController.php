@@ -89,7 +89,7 @@ class ItemAdminController extends Controller
 				$link_data->save();
 			}
 
-			foreach ($imagens as $imagem) {
+			foreach ($imagens as $imagem) {				
 				$imagem_nome = explode('/', $imagem->link)[2];
 
 				$imagem_data = new ImagemModel();

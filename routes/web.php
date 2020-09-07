@@ -31,34 +31,48 @@ Route::get('/item/{id}', function($id) {
 	return view('item', $data);
 });
 
+// sacolinha
 Route::get('/sacolinha', 'DoacaoController@index');
+Route::get('/sacolinha/tipo', 'DoacaoController@tipo');
 Route::post('/sacolinha/adicionar', 'DoacaoItemController@adicionarItem');
 Route::post('/sacolinha/remover', 'DoacaoItemController@removerItem');
 Route::post('/sacolinha/editar', 'DoacaoItemController@alteraQuantidade');
-
 Route::post('/sacolinha/salvar', 'DoacaoController@salvar');
+Route::post('/sacolinha/finalizar', 'DoacaoController@finalizar');
 
-// admin
-Route::get('/admin', 'AdminController@index')->name('admin');
+// usuario
+Route::post('/usuario/verificar', 'UsuarioController@verificar');
+Route::post('/usuario/cadastrar', 'UsuarioController@cadastrar');
 
-// login
+// ADMINISTRAÇÃO - AÇÕES SEM VERIFICAÇÃO
+Route::get('/admin', 'AdminController@index');
 Route::post('/admin/login', 'AdminController@login');
 Route::post('/admin/logout', 'AdminController@logout');
 
-// item
-Route::get('/admin/item/index/{id?}', 'ItemAdminController@index'); //->middleware('auth');
-Route::get('/admin/item/edit/{id?}' , 'ItemAdminController@edit'); //->middleware('auth');
-Route::get('/admin/item/delete/{id}', 'ItemAdminController@delete'); //->middleware('auth');
-Route::post('/admin/item/save'      , 'ItemAdminController@save'); //->middleware('auth');
 
-// tipo
-Route::get('/admin/tipo/index/{id?}', 'TipoController@index');
-Route::get('/admin/tipo/edit/{id?}' , 'TipoController@edit');
-Route::get('/admin/tipo/delete/{id}', 'TipoController@delete');
-Route::post('/admin/tipo/save'      , 'TipoController@save');
+// ADMINISTRAÇÃO - GRUPO
+Route::middleware('adminauth')->group(function() {
+	// item
+	Route::get('/admin/item/index/{id?}', 'ItemAdminController@index');
+	Route::get('/admin/item/edit/{id?}' , 'ItemAdminController@edit');
+	Route::get('/admin/item/delete/{id}', 'ItemAdminController@delete');
+	Route::post('/admin/item/save'      , 'ItemAdminController@save');
 
-// imagem
-Route::post('/admin/imagem/store', 'ImagemController@store');//->middleware('auth');
+	// tipo
+	Route::get('/admin/tipo/index/{id?}', 'TipoController@index');
+	Route::get('/admin/tipo/edit/{id?}' , 'TipoController@edit');
+	Route::get('/admin/tipo/delete/{id}', 'TipoController@delete');
+	Route::post('/admin/tipo/save'      , 'TipoController@save');
 
-Route::post('/usuario/verificar', 'UsuarioController@verificar');
-Route::post('/usuario/cadastrar', 'UsuarioController@cadastrar');
+	// doacao-tipo
+	Route::get('/admin/doacao-tipo/index/{id?}', 'DoacaoTipoController@index');
+	Route::get('/admin/doacao-tipo/edit/{id?}' , 'DoacaoTipoController@edit');
+	Route::get('/admin/doacao-tipo/delete/{id}', 'DoacaoTipoController@delete');
+	Route::post('/admin/doacao-tipo/save'      , 'DoacaoTipoController@save');
+
+	Route::get('/admin/doacao/{doacao}/atualizar-status/{status}', 'DoacaoController@updateStatus');
+	
+
+	// imagem
+	Route::post('/admin/imagem/store', 'ImagemController@store');
+});

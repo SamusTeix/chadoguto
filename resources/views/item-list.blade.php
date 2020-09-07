@@ -6,25 +6,22 @@
 	  <p class="lead text-center">Sintam-se bem a vontade para comprar o que fica melhor para vocês, tem itens de vários preços.</p>
 	  <hr class="my-4">
 	  <p>
-	  	Fizemos duas listas de presentinhos para você verificar qual forma prefere comprar meu presentinho. Leia como funciona cada uma, escolha o seu item preferido e clique em cima para ver a sugestão, o valor e como deve proceder para sabermos que já podemos riscar a quantidade que você irá dar da lista, sim, você pode dar de 1 item até o número total que colocamos como necessário, por isso precisamos saber quantos já foram.
+	  	Fizemos duas listas de presentinhos para você verificar qual forma prefere comprar meu presentinho. Leia como funciona cada uma, escolha o seu item preferido e clique em cima para ver a sugestão, o valor e como deve proceder para sabermos que já podemos riscar a quantidade que você irá dar da lista. Sim, você pode dar de 1 item até o número total que colocamos como necessário, por isso precisamos saber quantos já foram.
 	  </p>
 	  <p>
 	  	A primeira é para quem deseja comprar na loja ou no modelo de sua preferência. Mas também pode seguir a sugestão que colocamos ou até mesmo transferir o valor para a mamãe e o papai comprarem.
 	  </p>
 	  <p>
-	  	A segunda lista é para quem puder comprar diretamente o modelo e na loja que a mamãe e o papai escolheram, assim deixando meu quartinho todo igual. Nesse caso seria a compra do item específico ou a transferência do valor para que meus papais comprem e deixem meu quarto lindo
+	  	A segunda lista é para quem puder comprar diretamente o modelo e na loja que a mamãe e o papai escolheram, assim deixando meu quartinho todo igual. Nesse caso seria a compra do item específico ou a transferência do valor para que meus papais comprem e deixem meu quarto lindo.
 	  </p>
 	  <hr class="my-4">
 	  <p class="lead text-center">
-	  	Vamos ficar felizes com o ato de carinho de vocês, se não puderem dar nada nesse momento, não tem problema também, só pedimos para deixar uma mensagem de carinho para mim!
+	  	Vamos ficar felizes com o ato de carinho de vocês. Se não puderem dar nada nesse momento, não tem problema também, só pedimos para deixar uma mensagem de carinho para mim!
 	  </p>
 	  <hr class="my-4">
 	  <p>
-	  	Se ficarem na dúvida de como é tudo ou quiserem fazer de outra forma a mamãe e o papai vão sempre estar disponíveis para conversar com vocês. Eles tentaram fazer de uma forma que facilitasse para todos, já que a mamãe está se cuidando e não terá nem lista em loja e nem festinha.
+	  	Se ficarem na dúvida de como tudo funciona, ou quiserem fazer de outra forma a mamãe e o papai vão sempre estar disponíveis para conversar com vocês. Eles tentaram fazer de uma forma que facilitasse para todos, já que a mamãe está se cuidando e não terá nem lista em loja e nem festinha.
 	  </p>
-	  {{-- <p class="lead">
-	    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-	  </p> --}}
 	</div>
 	<div class="row">
 		<div class="col-12">

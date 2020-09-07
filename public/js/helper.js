@@ -76,17 +76,21 @@ App.get = function(path, callback)
 App.post = function(path, data, callback)
 {
 	var callbacks = $.Callbacks("once").add(callback);
-	// callbacks.add(callback);
+
+	console.log(data);
 
 	var formData = new FormData();
 	formData.append('_token', $('#token_csfr').find('input[type=hidden]')[0].value);
 	$(Object.entries(data)).each(function(i, item) {
-		if (typeof item[1] == 'array' || typeof item[1] == 'object')
+		if ((typeof item[1] == 'array' || typeof item[1] == 'object') && item[0] != 'imagem')
 		{
-			item[1] = JSON.	stringify(item[1]);
+			console.log('Não DEVE CAIR AQUI');
+			item[1] = JSON.stringify(item[1]);
 		}
 		formData.append(item[0], item[1]);
 	})
+
+	console.log(formData);
 
 	App.loading();
 	$.ajax({
@@ -128,11 +132,11 @@ function modalDelete(nome, id, mensagem = null)
 {
 	if (! mensagem)
 	{
-		mensagem = nome + ' ' + id;
+		mensagem = nome;
 	}
 
 	nome_funcao = 'delete' + uc_first(nome) + '(' + id + ')';
-	$('#app-modal-delete-title').text('Você deseja excluir o ' + mensagem + '?');
+	$('#app-modal-delete-title').text('Você deseja excluir o ' + mensagem + ' ' + id + '?');
 	$('#app-modal-delete-button').attr('onClick', nome_funcao);
 	$('#app-modal-delete').modal('toggle');
 }
@@ -151,6 +155,17 @@ function deleteItem(id)
 function deleteTipo(id)
 {
 	App.get('/admin/tipo/delete/' + id, function(json) {
+		if (json.info == 1)
+		{
+			App.modalSuccess(json.msg, true);
+		}
+
+	});
+}
+
+function deleteDoacaoTipo(id)
+{
+	App.get('/admin/doacao-tipo/delete/' + id, function(json) {
 		if (json.info == 1)
 		{
 			App.modalSuccess(json.msg, true);
@@ -193,6 +208,43 @@ function adicionarSacolinha()
 		setTimeout(function()
 		{
 			$('#app-modal-sacolinha-erro').slideUp();
+		}, 10000);	
+	}
+}
+
+function adicionarParticipa()
+{
+	var selected = false;
+	let item_id  = App.url_value();
+	let tamanhos = $('#app-modal-participa-text').find('.form-group').find('.form-control');
+
+	var lista_tamanhos = [];
+	tamanhos.each(function(index, tamanho) {
+		if ($(tamanho)[0].selectedIndex > 0)
+		{
+			selected = true;
+		}
+		lista_tamanhos.push({nome: $(tamanho)[0].id, quantidade: $(tamanho)[0].selectedIndex});
+	})
+
+	if (selected)
+	{
+		$('#app-modal-participa').modal('hide');
+
+		let data = {item_id: item_id, tamanhos: lista_tamanhos};
+		App.post('/sacolinha/adicionar/', data, function(json) {
+			if (json.info == 1)
+			{
+				window.location.href = '/sacolinha';
+			}
+		})
+	}
+	else
+	{
+		$('#app-modal-participa-erro').slideDown();
+		setTimeout(function()
+		{
+			$('#app-modal-participa-erro').slideUp();
 		}, 10000);	
 	}
 }
@@ -288,44 +340,6 @@ function modalError(msg, reload = false)
 	$('#app-modal-error').modal('toggle');
 }
 
-function saveDoacao()
-{
-	if ($('#id_usuario') && typeof $('#id_usuario').val() == 'number')
-	{
-		data = {id_usuario: $('#id_usuario').val()};
-	}
-	else 
-	{
-		let nome      = $('#nome').val();
-		let email     = $('#email').val();
-		let sobrenome = $('#sobrenome').val();
-
-		if (! nome || ! sobrenome)
-		{
-			$('#msg-erro-nome-sobrenome').slideDown();
-			if (! nome)
-			{
-				$('#nome').focus();
-			}
-			else
-			{
-				$('#sobrenome').focus();
-			}
-		}
-		else
-		{
-			data = {nome: nome, sobrenome: sobrenome, email: email};
-		}
-	}
-
-	App.post('/sacolinha/salvar', data, function(json) {
-		if (json.info == 1)
-		{
-			window.location.href = '/sacolinha/forma';
-		}
-	});	
-}
-
 $('#btn-acessar').click(function(){
 	if (App.validate([{ field: 'login', name: 'Email' }])) 
 	{
@@ -389,6 +403,7 @@ App.validate = function(data_list)
 
 		msg += errors.length == 1 ? 'O campo "' : 'Os campos "';
 		msg += errors.join('", "');
+		msg = msg.replace(/,([^,]*)$/, ' e' + '$1')
 		msg += errors.length == 1 ? '" é obrigatório' : '" são obrigatórios';
 
 		App.modalError(msg);
@@ -396,3 +411,143 @@ App.validate = function(data_list)
 	}
 	return true;
 }
+
+// SISTEMA DE ABAS PROPRIETARIO - INI
+
+// HTML
+
+// <div class="tab-main">
+// 	<div class="tab-content show" pos="1">
+// 		<a href="#" direction="next">Próximo</a>
+// 	</div>
+// 	<div class="tab-content hide" pos="2">
+// 		<a href="#" direction="next">Próximo</a>
+// 		<a href="#" direction="prev">Anterior</a>
+// 	</div>
+// 	<div class="tab-content hide" pos="3">
+// 		<a href="#" direction="prev">Anterior</a>
+// 	</div>
+// </div>
+
+// SCRIPT
+$('.tab-main').find('.tab-content a').click(function() {
+	var direction = $(this).attr('direction');
+	var position  = $(this).closest('.tab-content').attr('pos') * 1;
+	var tabList   = $(this).closest('.tab-main').find('.tab-content');
+
+	if (direction == 'next')
+	{
+		position = position + 1;
+	} 
+	else if (direction == 'prev')
+	{
+		position = position - 1;
+	} 
+	else
+	{
+		return false;
+	}
+
+	$(tabList).each(function(i, tab){
+		$(tab).removeClass('show').addClass('hide');
+		if ($(tab).attr('pos') * 1 == position)
+		{
+			$(tab).removeClass('hide').addClass('show');
+		}
+	})
+})
+
+// SISTEMA DE ABAS PROPRIETARIO - FIM
+
+function selectTipo(div, tipo)
+{
+	$('#tipo_doacao').val(tipo);
+	$('.card_tipo').css('background-color', 'white');
+	$(div).css('background-color', '#38c172');
+	$(div).closest('.tab-content').find('.disabled').removeClass('disabled');
+
+	if (tipo == 1)
+	{
+		$('.btn-tipo-doacao').text('Finalizar');
+	}
+	else
+	{
+		$('.btn-tipo-doacao').text('Continuar');	
+	}
+}
+
+function selectCanal(div, tipo)
+{
+	$('#canal_doacao').val(tipo);
+	$('.card_canal').css('background-color', 'white');
+	$(div).css('background-color', '#38c172');
+	$(div).closest('.tab-content').find('.disabled').removeClass('disabled');
+}
+
+function atualizarStatusDoacao(doacao, status)
+{
+	var msg = "";
+	switch (status) {
+		case 2:
+			msg = 'Você deseja setar o status da doação ' + doacao + ' para "Aguardando Entrega"?';
+			break;
+		case 3:
+			msg = 'Você deseja setar o status da doação ' + doacao + ' para "Entregue"?';
+			break;
+		case 4:
+			msg = 'Você deseja CANCELAR a doacao ' + doacao + '?';
+			break;
+	}
+
+	if (window.confirm(msg)) {
+		App.get('/admin/doacao/' + doacao + '/atualizar-status/' + status, function(json) {
+			if (json.info == 1)
+			{
+				App.modalSuccess(json.msg, true);
+			}
+			else 
+			{
+				App.modalError(json.msg);
+			}
+		})
+	}
+}
+
+$('.btn-tipo-doacao').click(function(){
+	if ($('#tipo_doacao').val() == 1)
+	{
+		App.post('/sacolinha/finalizar', { tipo_doacao: 1 }, function(json) {
+			if (json.info == 1)
+			{
+				App.modalSuccess(json.msg, true);
+			}
+			else
+			{
+				App.modelError(json.msg);
+			}
+		});
+	}
+	else
+	{
+		$('.tab-main').find('.tab-content').removeClass('show').addClass('hide');
+		$($('.tab-main').find('.tab-content')).each(function(i, div) {
+			if ($(div).attr('pos') == 3)
+			{
+				$(div).removeClass('hide').addClass('show');
+			}
+		})
+	}
+});
+
+$('.btn-canal-doacao').click(function(){
+	App.post('/sacolinha/finalizar', { tipo_doacao: 2, canal_doacao: $('#canal_doacao').val() }, function(json) {
+		if (json.info == 1)
+		{
+			App.modalSuccess(json.msg, true);
+		}
+		else
+		{
+			App.modelError(json.msg);
+		}
+	})
+});

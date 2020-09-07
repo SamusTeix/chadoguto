@@ -25,5 +25,5 @@
 @endsection
 
 @section('script')
-	{{-- <script type="text/javascript" src="http://localhost/js/components/item-form.js"></script> --}}
+	
 @endsection

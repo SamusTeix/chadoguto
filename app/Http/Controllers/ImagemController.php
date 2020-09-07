@@ -13,7 +13,7 @@ class ImagemController extends Controller
 {
    	public function store(Request $req)
 	{
-		return json_encode(FileUpload::store($req));
+		return $this->jsonSuccess(FileUpload::store($req));
 	}
 
 	public static function get($table, $id)

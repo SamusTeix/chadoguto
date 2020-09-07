@@ -30,15 +30,13 @@ App.get(url, function(json) {
 			saveImage: function()
 			{
 				var self = this;
-				var formData = new FormData();
-				formData.append('imagem', $('#imagem')[0].files[0]);
-				formData.append('_token', $('input[name=_token]')[0].value);
+				var data = {imagem: $('#imagem')[0].files[0]}
 
-				App.loading();
-				App.post('/admin/imagem/store', formData, function(json) {
-					$(json).each(function(){
-						self.imagens.push({link: this});
-					})					
+				App.post('/admin/imagem/store', data, function(json) {
+					if (json.info == 1)
+					{
+						self.imagens.push({ link: json.msg[0] });
+					}
 				})
 			},
 			deleteImage: function(value)
@@ -47,24 +45,26 @@ App.get(url, function(json) {
 			},
 			saveForm: function()
 			{
+				console.log(this.links);
+				console.log(this.imagens);
+
 				var self = this;
-				var formData = new FormData();
+				var data = {
+					id:        typeof self.item.id          == 'undefined' ? null : self.item.id,
+					nome:      self.item.nome,
+					descricao: self.item.descricao,
+					tipo_id:   self.item.tipo_id,
+					lista:     self.item.lista,
+					preco:     typeof self.item.preco       == 'undefined' ?    0 : self.item.preco,
+					pequeno:   typeof self.tamanhos.pequeno == 'undefined' ?    0 : self.tamanhos.pequeno,
+					medio:     typeof self.tamanhos.medio   == 'undefined' ?    0 : self.tamanhos.medio,
+					grande:    typeof self.tamanhos.grande  == 'undefined' ?    0 : self.tamanhos.grande,
+					unico:     typeof self.tamanhos.unico   == 'undefined' ?    0 : self.tamanhos.unico,
+					links:     JSON.stringify(self.links),
+					imagens:   JSON.stringify(self.imagens)
+				}				
 
-				formData.append('_token'   , $('input[name=_token]')[0].value);
-				formData.append('id'       , typeof self.item.id          == 'undefined' ? null : self.item.id);
-				formData.append('nome'     , self.item.nome);
-				formData.append('descricao', self.item.descricao);
-				formData.append('tipo_id'  , self.item.tipo_id);
-				formData.append('lista'    , self.item.lista);
-				formData.append('preco'    , typeof self.item.preco       == 'undefined' ?    0 : self.item.preco);
-				formData.append('pequeno'  , typeof self.tamanhos.pequeno == 'undefined' ?    0 : self.tamanhos.pequeno);
-				formData.append('medio'    , typeof self.tamanhos.medio   == 'undefined' ?    0 : self.tamanhos.medio);
-				formData.append('grande'   , typeof self.tamanhos.grande  == 'undefined' ?    0 : self.tamanhos.grande);
-				formData.append('unico'    , typeof self.tamanhos.unico   == 'undefined' ?    0 : self.tamanhos.unico);
-				formData.append('links'    , JSON.stringify(self.links));
-				formData.append('imagens'  , JSON.stringify(self.imagens));
-
-				App.post('/admin/item/save', formData, function(json) {
+				App.post('/admin/item/save', data, function(json) {
 					if (json.info == 1)
 					{
 						$('#app-modal-success-text').text(json.msg);

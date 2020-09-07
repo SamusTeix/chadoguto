@@ -14,7 +14,7 @@ class UsuarioController extends Controller
 
     	if ($usuario)
     	{
-    		parent::__construct($usuario);
+    		$this->setSession($usuario);
     		return $this->jsonSuccess();
     	}
     	else
@@ -26,23 +26,23 @@ class UsuarioController extends Controller
     public function cadastrar(Request $request)
     {
     	$usuario = new UsuarioModel();
-    	if (! empty($request->email))
+    	if (! empty($request->login))
     	{
 			$usuario = UsuarioModel::where('email', $request->login)->first();    		
     	}
 
     	if (! isset($usuario->id) || empty($usuario->id))
     	{
-    		$usuario->nome      = $request->nome;
-    		$usuario->sobrenome = $request->sobrenome;
-    		$usuario->email     = $request->email;
+    		$usuario->nome      = ucfirst(strtolower(trim($request->nome)));
+    		$usuario->sobrenome = ucfirst(strtolower(trim($request->sobrenome)));
+    		$usuario->email     = strtolower(trim($request->email));
 
     		$usuario->save();
     	}
 
     	if ($usuario && $usuario->id)
     	{
-    		parent::__construct($usuario);
+    		$this->setSession($usuario);
     		return $this->jsonSuccess();
     	}
     	else

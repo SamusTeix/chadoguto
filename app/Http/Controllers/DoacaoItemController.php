@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\DoacaoController;
 
 use App\DoacaoItemModel;
+use App\TamanhoModel;
 
 class DoacaoItemController extends Controller
 {
     public function adicionarItem(Request $request)
     {
-    	$doacao_id = DoacaoController::doacaoId();
+    	$doacao_id = $this->getDoacao()->id;
     	$tamanhos = json_decode($request->tamanhos);
     	foreach ($tamanhos as $tamanho) {
             if ($tamanho->quantidade > 0)
@@ -59,5 +60,28 @@ class DoacaoItemController extends Controller
             return json_encode(['info' => 1, 'msg' => 'Item excluído com sucesso!']);   
         }
         return json_encode(['info' => 0, 'msg' => 'Erro ao excluir item!']);   
+    }
+
+    public static function updateQuantidade($doacao)
+    {
+        $itens = DoacaoItemModel::where('id_doacao', $doacao->id)->get();
+
+        $operacao = '+';
+        if ($doacao->finalizado == 1) {
+            $operacao = '-';
+        }
+
+        foreach ($itens as $item) {
+            $tamanho = TamanhoModel::where('item_id', $item->id_item)->first();
+            if ($operacao == '+')
+            {
+                $tamanho->{$item->tamanho} += $item->quantidade;
+            }
+            if ($operacao == '-') 
+            {
+                $tamanho->{$item->tamanho} -= $item->quantidade;
+            }
+            $tamanho->save();
+        }
     }
 }
