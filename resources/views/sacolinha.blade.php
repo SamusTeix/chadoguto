@@ -85,7 +85,8 @@
 					</div>
 					<div class="tab-content hide" pos="3">
 						<input type="hidden" id="canal_doacao" name="canal_doacao">
-						@foreach($doacaoCanal as $key => $canal)
+						<div class="row">
+							@foreach($doacaoCanal as $key => $canal)
 							<div class="card col-3 text-center card_canal" onClick="selectCanal(this, {{$canal->id}})" role="button">
 								<img src="{{$canal->imagem}}" class="img-fluid rounded">
 								<div class="card-body">
@@ -94,6 +95,7 @@
 								</div>
 							</div>
 						@endforeach
+						</div>						
 						<div class="row">
 							<div class="col-12">
 								<a href="#" class="btn btn-primary"  direction="prev">Voltar</a>

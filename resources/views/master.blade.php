@@ -36,7 +36,7 @@
 					<img src="/storage/urso.png" style="height: 107px; position: relative; left: -31px; top: 8px;">
 				</a>
 			</div>
-			@if(session('permission')['user']);
+			@if(session('permission')['user'])
 				<div class="navbar-brand">
 					<a href="/sacolinha">
 						<div style="border: 10px solid rgb(45, 69, 115); border-radius: 19px; background-color: rgb(254, 254, 254);">
