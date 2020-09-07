@@ -66,9 +66,9 @@ class DoacaoController extends Controller
 
     public function finalizar(Request $request)
     {
-        $doacao = $this->getDoacao();
-        $doacao->tipo = $request->tipo_doacao;
-        $doacao->canal = isset($request->canal_doacao) ? $request->canal_doacao : null;
+        $doacao             = $this->getDoacao();
+        $doacao->tipo       = $request->tipo_doacao;
+        $doacao->canal      = isset($request->canal_doacao) && ! empty($request->canal_doacao) ? $request->canal_doacao : 0;
         $doacao->finalizado = 1;
         $doacao->save();
 
