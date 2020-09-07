@@ -6,7 +6,7 @@
 	<title>Chá do Guto</title>	
 	{{-- Estilos --}}
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <link href="http://chadoguto.life/css/app.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
 
     <style>
     	.show {
@@ -273,8 +273,8 @@
     	@csrf
     </div>
 	{{-- Scripts --}}
-	<script type="text/javascript" src="http://localhost/js/app.js"></script>	
-	<script type="text/javascript" src="http://localhost/js/helper.js"></script>
+	<script type="text/javascript" src="/js/app.js"></script>	
+	<script type="text/javascript" src="/js/helper.js"></script>
 	@yield('script')
 </body>
 </html>
