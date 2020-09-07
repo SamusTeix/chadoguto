@@ -20,4 +20,13 @@ class TamanhoModel extends Model
     	$itens = $tamanhoModel->where('pequeno', 0)->where('medio', 0)->where('grande', 0)->where('unico', 0)->get();
     	return $tamanhoModel->getIdList($itens, 'item_id');
     }
+
+    public function getIdList($list, $field = 'id')
+    {        
+        $id_list = [];
+        foreach ($list as $item) {
+            $id_list[] = $item->{$field};
+        }
+        return $id_list;
+    }
 }
