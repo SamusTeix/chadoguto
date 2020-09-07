@@ -6,7 +6,7 @@
 	<title>Chá do Guto</title>	
 	{{-- Estilos --}}
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <link href="http://localhost/css/app.css" rel="stylesheet">
+    <link href="http://chadoguto.life/css/app.css" rel="stylesheet">
 
     <style>
     	.show {
