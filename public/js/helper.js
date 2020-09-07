@@ -96,11 +96,12 @@ App.post = function(path, data, callback)
 		processData: false,
 		success: function(ret)
 		{
-			App.loading(0);
 			var json = JSON.parse(ret);
 			callbacks.fire(json);
+			App.loading(0);
 		},
 	});
+	App.loading(0);
 }
 
 function log(value)
