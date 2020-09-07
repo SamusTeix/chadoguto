@@ -36,14 +36,16 @@
 					<img src="/storage/urso.png" style="height: 107px; position: relative; left: -31px; top: 8px;">
 				</a>
 			</div>
-			<div class="navbar-brand">
-				<a href="/sacolinha">
-					<div style="border: 10px solid rgb(45, 69, 115); border-radius: 19px; background-color: rgb(254, 254, 254);">
-						<img src="/storage/sacolinha.png" style="width: 100px;">
-						<span id="contador-sacolinha" class="badge badge-secondary"></span>
-					</div>				
-				</a>
-			</div>
+			@if(session('permission')['user']);
+				<div class="navbar-brand">
+					<a href="/sacolinha">
+						<div style="border: 10px solid rgb(45, 69, 115); border-radius: 19px; background-color: rgb(254, 254, 254);">
+							<img src="/storage/sacolinha.png" style="width: 100px;">
+							<span id="contador-sacolinha" class="badge badge-secondary"></span>
+						</div>				
+					</a>
+				</div>
+			@endif			
 		</nav>
 
 		<div style="height: 175px"></div>
