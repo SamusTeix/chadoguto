@@ -33,9 +33,9 @@ class LimparTabelas extends Migration
         Schema::create('doacao', function (Blueprint $table) {
             $table->id();
             $table->integer('id_usuario');
-            $table->integer('tipo');
-            $table->integer('canal');
-            $table->integer('finalizado');
+            $table->integer('tipo')->default(0);
+            $table->integer('canal')->default(0);
+            $table->integer('finalizado')->default(0);
             $table->string('token');
         });
 
