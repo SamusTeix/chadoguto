@@ -3,6 +3,9 @@
 @section('content')
 	<input type="hidden" id="doacao_id" name="doacao_id" value="{{$doacao->id}}">
 	<h4>Muito obrigado por ter chegado até aqui</h4>
+	<p>
+		Pessoal, pedimos que finalizem a sacolinha até o dia 15/10, e que a entrega seja feita até 30/10, pois a partir do dia 01/11 nós vamos abrir os presentes com vocês por vídeochamada.
+	</p>
 	<div class="row">
 		<div class="col-12">
 			@if($doacao_itens->count() < 1)
