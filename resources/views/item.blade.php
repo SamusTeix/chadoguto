@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class="row">
-		<div class="col-8">
+		<div class="col-xs-12 col-sm-8">
 			<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner">
 					@if(isset($imagens->first()->link))
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-4">
+		<div class="col-xs-12">
 			<div class="row">
 				<div class="col-12">
 					<h3>{{$item->nome}}</h3>

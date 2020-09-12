@@ -3,7 +3,7 @@
 @section('content')
 	<div class="jumbotron">
 		<div class="row">
-			<div class="col-8">
+			<div class="col-xs-12 col-sm-8">
 				<h1 class="display-4">Olá, sou o Augusto</h1>
 			  <p class="lead">
 			  	Como eu quis vir no meio da pandemia, a mamãe e o papai não estão conseguindo visitar a família e os amigos. Por causa disso também não poderão fazer meu chá de bebê e nem convidar vocês para irem me ver logo quando eu chegar.
@@ -25,7 +25,7 @@
 					Estamos torcendo para tudo passar logo e a gente comemorar com muitos abraços, pois de longe e pela internet não tem como a mamãe e o papai mostrarem para vocês o quão felizes estão com a minha chegada e o que eles mais queriam agora era estar festejando com todo mundo.
 				</p>
 			</div>
-			<div class="col-4">
+			<div class="col-xs-12 col-sm-4">
 				<div class="row" style="background-color: white; padding: 15px 0;">
 					<div class="col-12">
 						<h4>É a primeira vez que venho aqui...</h4>

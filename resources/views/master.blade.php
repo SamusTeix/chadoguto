@@ -7,48 +7,42 @@
 	{{-- Estilos --}}
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
-
-    <style>
-    	.show {
-    		display: block;
-    	}
-
-    	.hide {
-    		display: none;
-    	}
-
-    	.thumb {
-    		width: 10vw;
-    	}
-
-    	.mini-thumb {
-    		width: 5vw;
-    	}
-    </style>
+    <link href="/css/css.css" rel="stylesheet">
 </head>
 <body>
 	<div id="app" class="container">
-		<nav class="navbar fixed-top navbar-light bg-light" style="background-image: url('/storage/fundo.png'); background-repeat: repeat-x;">
-			<div class="navbar-brand">
+		<div class="row row-header">
+			<div class="col-xs-12 col-sm-8 col-header-logo">
 				<a href="{{isset(session('permission')['user']) && session('permission')['user'] == true ? '/list' : '/'}}">
-					<img src="/storage/coroa.png" style="position: relative; left: 40px; top: -20px;">
-					<img src="/storage/titulo.png" style="border: 10px solid rgb(45, 69, 115); border-radius: 19px; background-color: rgb(254, 254, 254); position: relative; left: -10px; top: 16px; width: 40%;">
-					<img src="/storage/urso.png" style="height: 107px; position: relative; left: -31px; top: 8px;">
+					<img src="/storage/imagens/logo.png" class="img-logo">
 				</a>
 			</div>
-			@if(session('permission')['user'])
-				<div class="navbar-brand">
-					<a href="/sacolinha">
-						<div style="border: 10px solid rgb(45, 69, 115); border-radius: 19px; background-color: rgb(254, 254, 254);">
-							<img src="/storage/sacolinha.png" style="width: 100px;">
-							<span id="contador-sacolinha" class="badge badge-secondary"></span>
-						</div>				
+			<div class="col-xs-12 col-sm-4 col-header-sacolinha">
+				@if(session('permission')['user'])	
+					<a href="/sacolinha" class="">
+						<div class="row header-sacolinha-link">
+							<div class="col-8 text-left">
+								<p>
+									Bem vindo,
+								</p>
+								<p>
+									<h5>
+										{{session('user')['nome']}} {{session('user')['sobrenome']}}
+									</h5>
+								</p>
+							</div>
+							<div class="col-4 text-right">
+								<img src="/storage/imagens/sacolinha.png" class="mini-thumb">
+							</div>							
+						</div>
 					</a>
-				</div>
-			@endif			
-		</nav>
+				@endif
+			</div>
+		</div>
 
-		<div style="height: 175px"></div>
+		<div class="row">
+			<div class="col-12 ajuste-altura"></div>
+		</div>
 
         @yield('content')
         
