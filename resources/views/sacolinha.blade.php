@@ -130,7 +130,7 @@
 									</tr>
 									<tr>
 										<th colspan="10">
-											<textarea class="form-control overflow-hidden" rows="4" style="resize: none" disabled>{!!$doacao->canal->dados!!}</textarea>
+											<textarea class="form-control overflow-hidden" rows="5" style="resize: none" disabled>{!!$doacao->canal->dados!!}</textarea>
 										</th>
 									</tr>
 									<tr>

@@ -19,20 +19,29 @@
 			</div>
 			<div class="col-xs-12 col-sm-4 col-header-sacolinha">
 				@if(session('permission')['user'])	
-					<a href="/sacolinha" class="">
+					<a href="/sacolinha" class="header-sacolinha-a">
 						<div class="row header-sacolinha-link">
 							<div class="col-8 text-left">
-								<p>
-									Bem vindo,
-								</p>
-								<p>
-									<h5>
-										{{session('user')['nome']}} {{session('user')['sobrenome']}}
-									</h5>
-								</p>
+								<div class="row">
+									<div class="sacolinha-texto-cel">
+										<p>
+											Bem vindo, {{session('user')['nome']}} {{session('user')['sobrenome']}}
+										</p>
+									</div>
+									<div class="sacolinha-texto-pc">
+										<p>
+											Bem vindo,
+										</p>
+										<p>
+											<h5>
+												{{session('user')['nome']}} {{session('user')['sobrenome']}}
+											</h5>
+										</p>
+									</div>
+								</div>								
 							</div>
 							<div class="col-4 text-right">
-								<img src="/storage/imagens/sacolinha.png" class="mini-thumb">
+								<img src="/storage/imagens/sacolinha.png" class="img-fluid img-sacolinha">
 							</div>							
 						</div>
 					</a>
