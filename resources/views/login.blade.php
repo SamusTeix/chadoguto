@@ -2,6 +2,7 @@
 
 @section('content')
 	<form method="POST" action="/admin/login">
+		@csrf
 		<div class="row">
 			<div class="col-12">
 				<div class="form-group">
