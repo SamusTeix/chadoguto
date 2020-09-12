@@ -41,7 +41,7 @@
 								</div>								
 							</div>
 							<div class="col-4 text-right">
-								<img src="/storage/imagens/sacolinha.png" class="img-fluid img-sacolinha">
+								<img src="/storage/imagens/sacolinha.png" class="img-sacolinha">
 							</div>							
 						</div>
 					</a>

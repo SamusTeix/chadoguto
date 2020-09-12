@@ -40,7 +40,6 @@
 .header-sacolinha-link {
     height: 83px;
     width: 300px;
-    max-width: 100%;
 
     border: 5px solid #2d4372;
     border-radius: 15px;
@@ -66,6 +65,10 @@
     display: none;
 }
 
+.img-sacolinha {
+    width: 75px;
+}
+
 @media screen and (max-width: 567px) {
     .img-logo {
         width: 100%;
@@ -87,7 +90,7 @@
     }
 
     .img-sacolinha {
-        height: 4%;    
+        width: 40px;
     }
 
     .sacolinha-texto-pc {
